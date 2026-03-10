@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: point-system
+
+  # 1. H2 인메모리 데이터베이스 설정
+  datasource:
+    driver-class-name: org.h2.Driver
+    # MODE=MySQL을 추가하여 운영 환경(MySQL/Aurora)과 최대한 비슷한 문법으로 동작하게 합니다.
+    url: jdbc:h2:mem:pointdb;MODE=MySQL;NON_KEYWORDS=USER
+    username: sa
+    password:
+
+  # 2. H2 웹 콘솔 설정 (브라우저에서 DB 테이블 확인용)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  # 3. JPA (Hibernate) 설정
+  jpa:
+    hibernate:
+      # 앱 실행 시점에 앞서 작성한 Entity 클래스를 읽어서 자동으로 테이블(DDL)을 생성해 줍니다.
+      ddl-auto: create
+
+    # 하이버네이트가 날리는 진짜 SQL 쿼리를 콘솔에서 확인하기 위한 설정
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true # SQL을 한 줄이 아니라 예쁘게 줄바꿈해서 보여줍니다.
+        highlight_sql: true # SQL 문법에 색상을 입혀줍니다.
+        # N+1 쿼리 문제를 방지하기 위한 실무 필수 세팅! (컬렉션 조회 시 IN 쿼리로 최적화)
+        default_batch_fetch_size: 100
+
+    defer-datasource-initialization: true # Hibernate 초기화 후 SQL 실행
