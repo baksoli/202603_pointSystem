@@ -21,5 +21,6 @@ public class PointUsageDetail extends BaseTimeEntity {
     @JoinColumn(name = "point_id")
     private Point pointId; // 사용된 원천 포인트 ID
 
+    @JoinColumn(name = "used_amount")
     private Long usedAmount; // 차감된 금액
 }
